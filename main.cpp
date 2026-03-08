@@ -11,14 +11,14 @@ class Marble {
 
     public:
     //CONSTRUCTOR
-    Marble(double);
+    Marble(double r = 0.0);
     //ACCESSORS
     unsigned int getNumber() const { return number; }
     double getRadius() const { return radius; }
     //MUTATOR
     void setRadius(double r) { radius = r; }
 
-    double getVolume() { return (4/3 * 3.14159 * radius * radius * radius); }
+    double getVolume();
 
     //OVERLOADED OPERATORS
     Marble operator++();
@@ -30,15 +30,41 @@ class Marble {
 
 
 int main() {
-    Marble m1(1.3);
-    cout << "Radius: " << m1.getRadius() << endl;
-    cout << "Volume: " << m1.getVolume() << endl;
-    cout << "Number: " << m1.getNumber() << endl;
-    m1++;
-    cout << "New Radius: " << m1.getRadius() << endl;
-    ++m1;
-    cout << "New Radius: " << m1.getRadius() << endl;
+    const int SIZE = 5;     //Size for marble array
+    double input;           //Variable that holds user input 
+    Marble mArray[SIZE];    //Marble array
 
+    //Get user input for the radii of the marbles in the array
+    for (int i = 0; i < SIZE; i++) {
+        cout << "Enter the radius for Marble #" 
+             << mArray[i].getNumber() << ": ";
+        cin >> input;
+        mArray[i].setRadius(input);
+    }
+    cout << endl;
+
+    //Print the volume of the marbles in the array
+    for (int i = 0; i < SIZE; i++) {
+        cout << "The volume for Marble #" << mArray[i].getNumber() << ": ";
+        cout << mArray[i].getVolume() << endl;
+    }
+    cout << endl;
+
+    //Increment radii of marbles in the array
+    for (int i = 0; i < SIZE; i++) {
+        mArray[i]++;
+        cout << "Updated marble #" << mArray[i].getNumber() << ": ";
+        cout << mArray[i].getRadius() << endl;
+    }
+
+    //Create 2 new marbles with the sum and diff of the F/L marbles radii
+    Marble m6 = (mArray[0] + mArray[4]);
+    Marble m7 = (mArray[0] - mArray[4]);
+    //Print radii of the new marbles
+    cout << "\nThe radius of the new Marble that is the sum of the "
+         << "first and last: " << m6.getRadius() << endl;
+    cout << "\nThe radius of the new Marble that is the difference of the "
+         << "first and last: " << m7.getRadius() << endl;
     return 0;
 }
 
@@ -47,9 +73,16 @@ int main() {
 unsigned int Marble::count = 0;
 
 //CONSTRUCTOR - increment count, assign marble number, assign marble radius
-Marble::Marble(double r = 0){
+Marble::Marble(double r){
     number = ++count;
     radius = r;
+}
+
+//getVolume function - returns volume of the marble
+double Marble::getVolume(){
+    double vol;
+    vol = ((4.0 / 3.0) * 3.14159 * (radius * radius * radius));
+    return vol;
 }
 
 //OVERLOADED PREFIX INCREMENT OPERATOR
@@ -76,6 +109,6 @@ Marble Marble::operator+(const Marble& rhs) {
 //OVERLOADED SUBTRACTION OPERATOR
 Marble Marble::operator-(const Marble& rhs) {
     count--;                //decrements count as temp is not a real marble
-    Marble temp(radius - rhs.radius);   //create temp marble with radii minuend
+    Marble temp(radius - rhs.radius);   //create temp marble with radii diff
     return temp;            //return temp marble
 }
