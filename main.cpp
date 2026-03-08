@@ -15,10 +15,12 @@ class Marble {
     //ACCESSORS
     unsigned int getNumber() const { return number; }
     double getRadius() const { return radius; }
+
     //MUTATOR
     void setRadius(double r) { radius = r; }
 
-    double getVolume();
+    //ACCESSOR
+    double getVolume() const;
 
     //OVERLOADED OPERATORS
     Marble operator++();
@@ -79,7 +81,7 @@ Marble::Marble(double r){
 }
 
 //getVolume function - returns volume of the marble
-double Marble::getVolume(){
+double Marble::getVolume() const {
     double vol;
     vol = ((4.0 / 3.0) * 3.14159 * (radius * radius * radius));
     return vol;
