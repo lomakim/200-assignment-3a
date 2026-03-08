@@ -5,19 +5,22 @@ using namespace std;
 
 class Marble {
     private:
-    static unsigned int count;
+    static unsigned int count;  //STATIC MEMBER VARIABLE
     unsigned int number;
     double radius;
 
     public:
+    //CONSTRUCTOR
     Marble(double);
-    //Accessor functions
+    //ACCESSORS
     unsigned int getNumber() const { return number; }
     double getRadius() const { return radius; }
-    //Mutator functions
+    //MUTATOR
     void setRadius(double r) { radius = r; }
 
     double getVolume() { return (4/3 * 3.14159 * radius * radius * radius); }
+
+    //OVERLOADED OPERATORS
     Marble operator++();
     Marble operator++(int);
     Marble operator+(const Marble &);
@@ -39,12 +42,11 @@ int main() {
     return 0;
 }
 
+
+//STATIC MEMBER VARIABLE - definition; holds marble count
 unsigned int Marble::count = 0;
 
-/*CONSTRUCTOR - default constructor which can accept an argument:
-    - increments count
-    - assigns count to marble number
-    - assigns argument to radius                                 */
+//CONSTRUCTOR - increment count, assign marble number, assign marble radius
 Marble::Marble(double r = 0){
     number = ++count;
     radius = r;
@@ -58,20 +60,22 @@ Marble Marble::operator++() {
 
 //OVERLOADED POSTFIX INCREMENT OPERATOR
 Marble Marble::operator++(int) {
-    Marble temp(radius);    // create temp Marble to hold radius value
-    count--;                // decrement count value as temp is not a part of the marble count
-    radius++;               // increment radius of this Marble
-    return temp;            // return original value of this Marble
+    Marble temp(radius);    //create temp Marble to hold radius value
+    count--;                //decrement count; temp is not a real marble
+    radius++;               //increment radius of this Marble
+    return temp;            //return original value of this Marble
 }
 
 //OVERLOADED ADDITION OPERATOR
 Marble Marble::operator+(const Marble& rhs) {
-    Marble temp;
-    return temp;
+    count--;                //decrements count as temp is not a real marble
+    Marble temp(radius + rhs.radius);   //create temp marble with sum of radii
+    return temp;            //return temp marble
 }
 
 //OVERLOADED SUBTRACTION OPERATOR
 Marble Marble::operator-(const Marble& rhs) {
-    Marble temp;
-    return temp;
+    count--;                //decrements count as temp is not a real marble
+    Marble temp(radius - rhs.radius);   //create temp marble with radii minuend
+    return temp;            //return temp marble
 }
